@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // Bootstrap functions
 //
 // Utility mixins and functions for evaluating source code across our variables, maps, and mixins.
@@ -8,7 +10,7 @@
   $prev-key: null;
   $prev-num: null;
   @each $key, $num in $map {
-    @if $prev-num == null or unit($num) == "%" or unit($prev-num) == "%" {
+    @if $prev-num == null or math.unit($num) == "%" or math.unit($prev-num) == "%" {
       // Do nothing
     } @else if not comparable($prev-num, $num) {
       @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
@@ -287,8 +289,8 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     }
   }
   $result: $result * $factor * $sign;
-  $dividend-unit: unit($dividend);
-  $divisor-unit: unit($divisor);
+  $dividend-unit: math.unit($dividend);
+  $divisor-unit: math.unit($divisor);
   $unit-map: (
     "px": 1px,
     "rem": 1rem,
