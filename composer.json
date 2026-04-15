@@ -3,8 +3,7 @@
     "description": "External assets dependencies for Ibexa AdminUI",
     "license": "(GPL-2.0-only or proprietary)",
     "replace": {
-        "ezsystems/ezplatform-admin-ui-assets": "*",
-        "ibexa/admin-ui-assets": "self.version"
+        "ezsystems/ezplatform-admin-ui-assets": "*"
     },
     "require": {
         "php": ">=8.3",
