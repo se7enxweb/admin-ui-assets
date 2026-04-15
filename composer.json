@@ -1,8 +1,9 @@
 {
-    "name": "ibexa/admin-ui-assets",
+    "name": "se7enxweb/admin-ui-assets",
     "description": "External assets dependencies for Ibexa AdminUI",
     "license": "(GPL-2.0-only or proprietary)",
     "replace": {
+        "ibexa/admin-ui-assets": "*",
         "ezsystems/ezplatform-admin-ui-assets": "*"
     },
     "require": {
