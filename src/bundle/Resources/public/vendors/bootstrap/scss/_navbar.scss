@@ -7,7 +7,9 @@
 
 .navbar {
   // scss-docs-start navbar-css-vars
-  --#{$prefix}navbar-padding-x: #{if($navbar-padding-x == null, 0, $navbar-padding-x)};
+  $_nbpx: 0;
+  @if $navbar-padding-x != null { $_nbpx: $navbar-padding-x; }
+  --#{$prefix}navbar-padding-x: #{$_nbpx};
   --#{$prefix}navbar-padding-y: #{$navbar-padding-y};
   --#{$prefix}navbar-color: #{$navbar-light-color};
   --#{$prefix}navbar-hover-color: #{$navbar-light-hover-color};
