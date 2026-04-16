@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "sass:map" as sass-map;
+@use "vendor/rfs" as *;
 // Navbar
 //
 // Provide a static navbar from which we expand to create full-width, fixed, and

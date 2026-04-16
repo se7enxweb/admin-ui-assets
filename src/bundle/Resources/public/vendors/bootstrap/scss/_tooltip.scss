@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "vendor/rfs" as *;
 // Base class
 .tooltip {
   // scss-docs-start tooltip-css-vars

@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "sass:map" as sass-map;
+@use "vendor/rfs" as *;
 // The dropdown wrapper (`<div>`)
 .dropup,
 .dropend,
