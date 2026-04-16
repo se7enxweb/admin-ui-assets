@@ -3,6 +3,7 @@
 // scss-docs-start import-stack
 // Configuration
 @use "functions" as *;
+@forward "variables";
 @use "variables" as *;
 @use "variables-dark" as *;
 @use "maps" as *;
