@@ -1,4 +1,5 @@
 @use "../variables" as *;
+@use "sass:map" as sass-map;
 //
 // Base styles
 //
@@ -117,7 +118,7 @@
   }
 
   $validation-messages: "";
-  @each $state in map-keys($form-validation-states) {
+  @each $state in sass-map.keys($form-validation-states) {
     $validation-messages: $validation-messages + ":not(." + unquote($state) + "-tooltip)" + ":not(." + unquote($state) + "-feedback)";
   }
 

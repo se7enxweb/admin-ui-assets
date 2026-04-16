@@ -1,6 +1,7 @@
 @use "variables" as *;
 @use "variables-dark" as *;
 @use "functions" as *;
+@use "sass:map" as sass-map;
 
 // Re-assigned maps
 //
@@ -104,7 +105,7 @@ $utilities-colors: $theme-colors-rgb !default;
 // scss-docs-end utilities-colors
 
 // scss-docs-start utilities-text-colors
-$utilities-text: map-merge(
+$utilities-text: sass-map.merge(
   $utilities-colors,
   (
     "black": to-rgb($black),
@@ -127,7 +128,7 @@ $utilities-text-emphasis-colors: (
 // scss-docs-end utilities-text-colors
 
 // scss-docs-start utilities-bg-colors
-$utilities-bg: map-merge(
+$utilities-bg: sass-map.merge(
   $utilities-colors,
   (
     "black": to-rgb($black),
@@ -150,7 +151,7 @@ $utilities-bg-subtle: (
 // scss-docs-end utilities-bg-colors
 
 // scss-docs-start utilities-border-colors
-$utilities-border: map-merge(
+$utilities-border: sass-map.merge(
   $utilities-colors,
   (
     "black": to-rgb($black),

@@ -2,6 +2,7 @@
 @use "sass:color";
 @use "sass:list";
 @use "sass:map" as sass-map;
+@use "sass:string" as sass-string;
 
 // stylelint-disable scss/dollar-variable-default
 $prefix: "bs-" !default;
@@ -72,10 +73,10 @@ $prefix: "bs-" !default;
       } @else {
         $_resolved: $arg;
       }
-      $_args: append($_args, $_resolved);
+      $_args: list.append($_args, $_resolved);
     }
 
-    $_map: map-merge($_map, ($key: call(get-function($func), $_args...)));
+    $_map: sass-map.merge($_map, ($key: call(get-function($func), $_args...)));
   }
 
   @return $_map;
@@ -85,7 +86,7 @@ $prefix: "bs-" !default;
 @function varify($list) {
   $result: null;
   @each $entry in $list {
-    $result: append($result, var(--#{$prefix}#{$entry}), space);
+    $result: list.append($result, var(--#{$prefix}#{$entry}), space);
   }
   @return $result;
 }
@@ -96,7 +97,7 @@ $prefix: "bs-" !default;
   $result: ();
   @each $key, $value in $map {
     @if $key != 0 {
-      $result: map-merge($result, ("n" + $key: (-$value)));
+      $result: sass-map.merge($result, ("n" + $key: (-$value)));
     }
   }
   @return $result;
@@ -106,8 +107,8 @@ $prefix: "bs-" !default;
 @function map-get-multiple($map, $values) {
   $result: ();
   @each $key, $value in $map {
-    @if (index($values, $key) != null) {
-      $result: map-merge($result, ($key: $value));
+    @if (list.index($values, $key) != null) {
+      $result: sass-map.merge($result, ($key: $value));
     }
   }
   @return $result;
@@ -118,7 +119,7 @@ $prefix: "bs-" !default;
   $merged-maps: ();
 
   @each $map in $maps {
-    $merged-maps: map-merge($merged-maps, $map);
+    $merged-maps: sass-map.merge($merged-maps, $map);
   }
   @return $merged-maps;
 }
@@ -132,10 +133,10 @@ $prefix: "bs-" !default;
 // @param {String} $replace ('') - New value
 // @return {String} - Updated string
 @function str-replace($string, $search, $replace: "") {
-  $index: str-index($string, $search);
+  $index: str-list.index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    @return sass-string.slice($string, 1, $index - 1) + $replace + str-replace(sass-string.slice($string, $index + sass-string.length($search)), $search, $replace);
   }
 
   @return $string;
@@ -146,11 +147,11 @@ $prefix: "bs-" !default;
 // Requires the use of quotes around data URIs.
 
 @function escape-svg($string) {
-  @if str-index($string, "data:image/svg+xml") {
+  @if str-list.index($string, "data:image/svg+xml") {
     @each $char, $encoded in $escaped-characters {
       // Do not escape the url brackets
-      @if str-index($string, "url(") == 1 {
-        $string: url("#{str-replace(str-slice($string, 6, -3), $char, $encoded)}");
+      @if str-list.index($string, "url(") == 1 {
+        $string: url("#{str-replace(sass-string.slice($string, 6, -3), $char, $encoded)}");
       } @else {
         $string: str-replace($string, $char, $encoded);
       }
@@ -214,16 +215,16 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     } @else {
       $value: list.nth($_luminance-list, $value + 1);
     }
-    $rgb: map-merge($rgb, ($name: $value));
+    $rgb: sass-map.merge($rgb, ($name: $value));
   }
 
-  @return (map-get($rgb, "r") * .2126) + (map-get($rgb, "g") * .7152) + (map-get($rgb, "b") * .0722);
+  @return (sass-map.get($rgb, "r") * .2126) + (sass-map.get($rgb, "g") * .7152) + (sass-map.get($rgb, "b") * .0722);
 }
 
 // Return opaque color
 // opaque(#fff, rgba(0, 0, 0, .5)) => #808080
 @function opaque($background, $foreground) {
-  @return color.mix(rgba($foreground, 1), $background, $weight: opacity($foreground) * 100%);
+  @return color.mix(rgba($foreground, 1), $background, $weight: color.opacity($foreground) * 100%);
 }
 
 // scss-docs-start color-functions
@@ -257,14 +258,14 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @return $value1;
   }
 
-  @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
+  @if type-of($value1) == number and type-of($value2) == number and math.compatible($value1, $value2) {
     @return $value1 + $value2;
   }
 
   @if $return-calc == true {
     @return calc(#{$value1} + #{$value2});
   } @else {
-    @return $value1 + unquote(" + ") + $value2;
+    @return $value1 + sass-string.unquote(" + ") + $value2;
   }
 }
 
@@ -281,18 +282,18 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @return $value1;
   }
 
-  @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
+  @if type-of($value1) == number and type-of($value2) == number and math.compatible($value1, $value2) {
     @return $value1 - $value2;
   }
 
   @if type-of($value2) != number {
-    $value2: unquote("(") + $value2 + unquote(")");
+    $value2: sass-string.unquote("(") + $value2 + sass-string.unquote(")");
   }
 
   @if $return-calc == true {
     @return calc(#{$value1} - #{$value2});
   } @else {
-    @return $value1 + unquote(" - ") + $value2;
+    @return $value1 + sass-string.unquote(" - ") + $value2;
   }
 }
 
@@ -335,8 +336,8 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     "em": 1em,
     "%": 1%
   );
-  @if ($dividend-unit != $divisor-unit and map-has-key($unit-map, $dividend-unit)) {
-    $result: $result * map-get($unit-map, $dividend-unit);
+  @if ($dividend-unit != $divisor-unit and sass-map.has-key($unit-map, $dividend-unit)) {
+    $result: $result * sass-map.get($unit-map, $dividend-unit);
   }
   @return $result;
 }

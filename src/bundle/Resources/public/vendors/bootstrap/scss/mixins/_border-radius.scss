@@ -1,4 +1,6 @@
 @use "../variables" as *;
+@use "sass:list";
+@use "sass:math";
 // stylelint-disable property-disallowed-list
 // Single side border-radius
 
@@ -7,9 +9,9 @@
   $return: ();
   @each $value in $radius {
     @if type-of($value) == number {
-      $return: append($return, max($value, 0));
+      $return: list.append($return, math.max($value, 0));
     } @else {
-      $return: append($return, $value);
+      $return: list.append($return, $value);
     }
   }
   @return $return;
