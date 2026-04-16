@@ -3,6 +3,7 @@
 @use "sass:list";
 @use "sass:map" as sass-map;
 @use "sass:string" as sass-string;
+@use "sass:meta";
 
 // stylelint-disable scss/dollar-variable-default
 $prefix: "bs-" !default;
@@ -258,7 +259,7 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @return $value1;
   }
 
-  @if type-of($value1) == number and type-of($value2) == number and math.compatible($value1, $value2) {
+  @if meta.type-of($value1) == number and meta.type-of($value2) == number and math.compatible($value1, $value2) {
     @return $value1 + $value2;
   }
 
@@ -282,11 +283,11 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @return $value1;
   }
 
-  @if type-of($value1) == number and type-of($value2) == number and math.compatible($value1, $value2) {
+  @if meta.type-of($value1) == number and meta.type-of($value2) == number and math.compatible($value1, $value2) {
     @return $value1 - $value2;
   }
 
-  @if type-of($value2) != number {
+  @if meta.type-of($value2) != number {
     $value2: sass-string.unquote("(") + $value2 + sass-string.unquote(")");
   }
 
