@@ -1,5 +1,6 @@
 @use "../variables" as *;
 @use "sass:map" as sass-map;
+@use "sass:math";
 // Grid system
 //
 // Generate semantic grid columns with these mixins.
@@ -32,7 +33,7 @@
 @mixin make-col($size: false, $columns: $grid-columns) {
   @if $size {
     flex: 0 0 auto;
-    width: percentage(divide($size, $columns));
+    width: math.percentage(divide($size, $columns));
 
   } @else {
     flex: 1 1 0;
@@ -47,7 +48,7 @@
 
 @mixin make-col-offset($size, $columns: $grid-columns) {
   $num: divide($size, $columns);
-  @if $num == 0 { margin-left: 0; } @else { margin-left: percentage($num); }
+  @if $num == 0 { margin-left: 0; } @else { margin-left: math.percentage($num); }
 }
 
 // Row columns
@@ -58,7 +59,7 @@
 @mixin row-cols($count) {
   > * {
     flex: 0 0 auto;
-    width: percentage(divide(1, $count));
+    width: math.percentage(divide(1, $count));
   }
 }
 
