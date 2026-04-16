@@ -3,9 +3,7 @@
 // Used in conjunction with global variables to enable certain theme features.
 // This is a proxy/barrel file — it @forward all sub-modules so consumers
 // who do `@use "mixins" as *` receive all mixin definitions.
-
-// Vendor
-@forward "vendor/rfs";
+// Note: vendor/rfs is NOT forwarded here — files that need rfs import it directly.
 
 // Deprecate
 @forward "mixins/deprecate";
