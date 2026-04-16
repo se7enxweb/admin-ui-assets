@@ -1,6 +1,4 @@
 @use "mixins/banner" as *;
-@include bsBanner("");
-
 
 // scss-docs-start import-stack
 // Configuration
@@ -50,3 +48,5 @@
 // Utilities
 @use "utilities/api" as *;
 // scss-docs-end import-stack
+
+@include bsBanner("");
