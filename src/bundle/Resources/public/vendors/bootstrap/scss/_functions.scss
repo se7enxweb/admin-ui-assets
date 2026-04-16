@@ -77,7 +77,7 @@ $prefix: "bs-" !default;
       $_args: list.append($_args, $_resolved);
     }
 
-    $_map: sass-map.merge($_map, ($key: call(get-function($func), $_args...)));
+    $_map: sass-map.merge($_map, ($key: meta.call(meta.get-function($func), $_args...)));
   }
 
   @return $_map;
