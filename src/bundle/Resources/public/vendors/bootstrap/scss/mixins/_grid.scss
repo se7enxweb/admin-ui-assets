@@ -1,4 +1,8 @@
+@use "sass:meta";
+@use "./breakpoints" as *;
+@use "../functions" as *;
 @use "../variables" as *;
+@use "../maps" as *;
 @use "sass:map" as sass-map;
 @use "sass:math";
 // Grid system
@@ -17,7 +21,7 @@
 }
 
 @mixin make-col-ready() {
-  @if variable-exists(include-column-box-sizing) and $include-column-box-sizing { // Add box sizing if only the grid is loaded
+  @if meta.variable-exists(include-column-box-sizing) and $include-column-box-sizing { // Add box sizing if only the grid is loaded
   box-sizing: border-box; }
   // Prevent columns from becoming too narrow when at smaller grid tiers by
   // always setting `width: 100%;`. This works because we set the width

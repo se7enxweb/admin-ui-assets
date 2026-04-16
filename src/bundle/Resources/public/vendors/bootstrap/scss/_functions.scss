@@ -6,7 +6,14 @@
 @use "sass:meta";
 
 // stylelint-disable scss/dollar-variable-default
-$prefix: "bs-" !default;
+$-prefix: "bs-" !default;
+$escaped-characters: (
+  ("<", "%3c"),
+  (">", "%3e"),
+  ("#", "%23"),
+  ("(", "%28"),
+  (")", "%29"),
+) !default;
 // stylelint-enable scss/dollar-variable-default
 
 // Bootstrap functions
@@ -51,11 +58,11 @@ $prefix: "bs-" !default;
 // stylelint-disable scss/dollar-variable-pattern
 @function rgba-css-var($identifier, $target) {
   @if $identifier == "body" and $target == "bg" {
-    @return rgba(var(--#{$prefix}#{$identifier}-bg-rgb), var(--#{$prefix}#{$target}-opacity));
+    @return rgba(var(--#{$-prefix}#{$identifier}-bg-rgb), var(--#{$-prefix}#{$target}-opacity));
   } @if $identifier == "body" and $target == "text" {
-    @return rgba(var(--#{$prefix}#{$identifier}-color-rgb), var(--#{$prefix}#{$target}-opacity));
+    @return rgba(var(--#{$-prefix}#{$identifier}-color-rgb), var(--#{$-prefix}#{$target}-opacity));
   } @else {
-    @return rgba(var(--#{$prefix}#{$identifier}-rgb), var(--#{$prefix}#{$target}-opacity));
+    @return rgba(var(--#{$-prefix}#{$identifier}-rgb), var(--#{$-prefix}#{$target}-opacity));
   }
 }
 
@@ -87,7 +94,7 @@ $prefix: "bs-" !default;
 @function varify($list) {
   $result: null;
   @each $entry in $list {
-    $result: list.append($result, var(--#{$prefix}#{$entry}), space);
+    $result: list.append($result, var(--#{$-prefix}#{$entry}), space);
   }
   @return $result;
 }
@@ -134,7 +141,7 @@ $prefix: "bs-" !default;
 // @param {String} $replace ('') - New value
 // @return {String} - Updated string
 @function str-replace($string, $search, $replace: "") {
-  $index: str-list.index($string, $search);
+  $index: sass-string.index($string, $search);
 
   @if $index {
     @return sass-string.slice($string, 1, $index - 1) + $replace + str-replace(sass-string.slice($string, $index + sass-string.length($search)), $search, $replace);
@@ -148,10 +155,10 @@ $prefix: "bs-" !default;
 // Requires the use of quotes around data URIs.
 
 @function escape-svg($string) {
-  @if str-list.index($string, "data:image/svg+xml") {
+  @if sass-string.index($string, "data:image/svg+xml") {
     @each $char, $encoded in $escaped-characters {
       // Do not escape the url brackets
-      @if str-list.index($string, "url(") == 1 {
+      @if sass-string.index($string, "url(") == 1 {
         $string: url("#{str-replace(sass-string.slice($string, 6, -3), $char, $encoded)}");
       } @else {
         $string: str-replace($string, $char, $encoded);
@@ -214,7 +221,7 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @if divide($value, 255) < .04045 {
       $value: divide(divide($value, 255), 12.92);
     } @else {
-      $value: list.nth($_luminance-list, $value + 1);
+      $value: list.nth($_luminance-list, math.round($value) + 1);
     }
     $rgb: sass-map.merge($rgb, ($name: $value));
   }

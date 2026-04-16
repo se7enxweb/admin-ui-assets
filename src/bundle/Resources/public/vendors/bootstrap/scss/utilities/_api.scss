@@ -1,7 +1,9 @@
 @use "../variables" as *;
+@use "../utilities" as *;
 @use "sass:map" as sass-map;
 @use "sass:meta";
 @use "../mixins" as *;
+@use "../vendor/rfs" as *;
 // Loop over each breakpoint
 @each $breakpoint in sass-map.keys($grid-breakpoints) {
 
