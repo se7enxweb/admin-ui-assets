@@ -12,7 +12,7 @@ $min-contrast-ratio: 4.5 !default;
 
 // Ascending
 // Used to evaluate Sass maps like our grid breakpoints.
-@mixin _assert-ascending($map, $map-name) {
+@mixin assert-ascending($map, $map-name) {
   $prev-key: null;
   $prev-num: null;
   @each $key, $num in $map {
@@ -30,7 +30,7 @@ $min-contrast-ratio: 4.5 !default;
 
 // Starts at zero
 // Used to ensure the min-width of the lowest breakpoint starts at 0.
-@mixin _assert-starts-at-zero($map, $map-name: "$grid-breakpoints") {
+@mixin assert-starts-at-zero($map, $map-name: "$grid-breakpoints") {
   @if length($map) > 0 {
     $values: map-values($map);
     $first-value: nth($values, 1);
