@@ -1,3 +1,9 @@
+@use "variables" as *;
+@use "variables-dark" as *;
+@use "maps" as *;
+@use "functions" as *;
+@use "mixins" as *;
+
 :root,
 [data-bs-theme="light"] {
   // Note: Custom variable values only support SassScript inside `#{}`.

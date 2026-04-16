@@ -1,3 +1,4 @@
+@use "../variables" as *;
 // Grid system
 //
 // Generate semantic grid columns with these mixins.
@@ -14,8 +15,8 @@
 }
 
 @mixin make-col-ready() {
-  // Add box sizing if only the grid is loaded
-  box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+  @if variable-exists(include-column-box-sizing) and $include-column-box-sizing { // Add box sizing if only the grid is loaded
+  box-sizing: border-box; }
   // Prevent columns from becoming too narrow when at smaller grid tiers by
   // always setting `width: 100%;`. This works because we set the width
   // later on to override this initial width.

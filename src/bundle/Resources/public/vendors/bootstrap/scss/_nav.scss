@@ -1,3 +1,4 @@
+@use "variables" as *;
 // Base class
 //
 // Kickstart any navigation component with a set of style resets. Works with
@@ -27,7 +28,7 @@
   @include font-size(var(--#{$prefix}nav-link-font-size));
   font-weight: var(--#{$prefix}nav-link-font-weight);
   color: var(--#{$prefix}nav-link-color);
-  text-decoration: if($link-decoration == none, null, none);
+  @if not ($link-decoration == none) { text-decoration: none; }
   background: none;
   border: 0;
   @include transition($nav-link-transition);
@@ -35,7 +36,7 @@
   &:hover,
   &:focus {
     color: var(--#{$prefix}nav-link-hover-color);
-    text-decoration: if($link-hover-decoration == underline, none, null);
+    @if $link-hover-decoration == underline { text-decoration: none; }
   }
 
   &:focus-visible {
