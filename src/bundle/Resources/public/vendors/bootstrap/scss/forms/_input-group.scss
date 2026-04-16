@@ -2,6 +2,7 @@
 @use "sass:map" as sass-map;
 @use "sass:string" as sass-string;
 @use "../vendor/rfs" as *;
+@use "../mixins" as *;
 //
 // Base styles
 //

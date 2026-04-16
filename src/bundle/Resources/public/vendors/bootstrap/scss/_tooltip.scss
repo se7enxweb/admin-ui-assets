@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "vendor/rfs" as *;
+@use "mixins" as *;
 // Base class
 .tooltip {
   // scss-docs-start tooltip-css-vars

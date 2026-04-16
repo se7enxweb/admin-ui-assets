@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "vendor/rfs" as *;
+@use "mixins" as *;
 .popover {
   // scss-docs-start popover-css-vars
   --#{$prefix}popover-zindex: #{$zindex-popover};

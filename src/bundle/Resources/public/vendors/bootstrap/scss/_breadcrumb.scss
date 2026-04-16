@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "vendor/rfs" as *;
+@use "mixins" as *;
 .breadcrumb {
   // scss-docs-start breadcrumb-css-vars
   --#{$prefix}breadcrumb-padding-x: #{$breadcrumb-padding-x};

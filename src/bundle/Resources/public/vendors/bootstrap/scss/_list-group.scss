@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "sass:map" as sass-map;
+@use "mixins" as *;
 // Base class
 //
 // Easily usable on <ul>, <ol>, or <div>.

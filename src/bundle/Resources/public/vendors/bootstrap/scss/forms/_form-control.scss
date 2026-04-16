@@ -1,6 +1,7 @@
 @use "../variables" as *;
 @use "sass:math";
 @use "../vendor/rfs" as *;
+@use "../mixins" as *;
 //
 // General form controls (plus a few specific high-level interventions)
 //
