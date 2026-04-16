@@ -55,7 +55,15 @@
     // allow to pass the $key and $value of the map as an function argument
     $_args: ();
     @each $arg in $args {
-      $_args: append($_args, if($arg == "$key", $key, if($arg == "$value", $value, $arg)));
+      $_resolved: null;
+      @if $arg == "$key" {
+        $_resolved: $key;
+      } @else if $arg == "$value" {
+        $_resolved: $value;
+      } @else {
+        $_resolved: $arg;
+      }
+      $_args: append($_args, $_resolved);
     }
 
     $_map: map-merge($_map, ($key: call(get-function($func), $_args...)));
@@ -174,7 +182,11 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
   $l1: luminance($background);
   $l2: luminance(opaque($background, $foreground));
 
-  @return if($l1 > $l2, divide($l1 + .05, $l2 + .05), divide($l2 + .05, $l1 + .05));
+  @if $l1 > $l2 {
+    @return divide($l1 + .05, $l2 + .05);
+  } @else {
+    @return divide($l2 + .05, $l1 + .05);
+  }
 }
 
 // Return WCAG2.2 relative luminance
@@ -188,7 +200,11 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
   );
 
   @each $name, $value in $rgb {
-    $value: if(divide($value, 255) < .04045, divide(divide($value, 255), 12.92), nth($_luminance-list, $value + 1));
+    @if divide($value, 255) < .04045 {
+      $value: divide(divide($value, 255), 12.92);
+    } @else {
+      $value: nth($_luminance-list, $value + 1);
+    }
     $rgb: map-merge($rgb, ($name: $value));
   }
 
@@ -214,7 +230,11 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
 
 // Shade the color if the weight is positive, else tint it
 @function shift-color($color, $weight) {
-  @return if($weight > 0, shade-color($color, $weight), tint-color($color, -$weight));
+  @if $weight > 0 {
+    @return shade-color($color, $weight);
+  } @else {
+    @return tint-color($color, -$weight);
+  }
 }
 // scss-docs-end color-functions
 
@@ -232,7 +252,11 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @return $value1 + $value2;
   }
 
-  @return if($return-calc == true, calc(#{$value1} + #{$value2}), $value1 + unquote(" + ") + $value2);
+  @if $return-calc == true {
+    @return calc(#{$value1} + #{$value2});
+  } @else {
+    @return $value1 + unquote(" + ") + $value2;
+  }
 }
 
 @function subtract($value1, $value2, $return-calc: true) {
@@ -256,11 +280,18 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     $value2: unquote("(") + $value2 + unquote(")");
   }
 
-  @return if($return-calc == true, calc(#{$value1} - #{$value2}), $value1 + unquote(" - ") + $value2);
+  @if $return-calc == true {
+    @return calc(#{$value1} - #{$value2});
+  } @else {
+    @return $value1 + unquote(" - ") + $value2;
+  }
 }
 
 @function divide($dividend, $divisor, $precision: 10) {
-  $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1);
+  $sign: 1;
+  @if not ($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0) {
+    $sign: -1;
+  }
   $dividend: abs($dividend);
   $divisor: abs($divisor);
   @if $dividend == 0 {
