@@ -1,5 +1,11 @@
 @use "sass:math";
 @use "sass:color";
+@use "sass:list";
+@use "sass:map" as sass-map;
+
+// stylelint-disable scss/dollar-variable-default
+$prefix: "bs-" !default;
+// stylelint-enable scss/dollar-variable-default
 
 // Bootstrap functions
 //
@@ -13,7 +19,7 @@
   @each $key, $num in $map {
     @if $prev-num == null or math.unit($num) == "%" or math.unit($prev-num) == "%" {
       // Do nothing
-    } @else if not comparable($prev-num, $num) {
+    } @else if not math.compatible($prev-num, $num) {
       @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
     } @else if $prev-num >= $num {
       @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
@@ -26,9 +32,9 @@
 // Starts at zero
 // Used to ensure the min-width of the lowest breakpoint starts at 0.
 @mixin assert-starts-at-zero($map, $map-name: "$grid-breakpoints") {
-  @if length($map) > 0 {
-    $values: map-values($map);
-    $first-value: nth($values, 1);
+  @if list.length($map) > 0 {
+    $values: sass-map.values($map);
+    $first-value: list.nth($values, 1);
     @if $first-value != 0 {
       @warn "First breakpoint in #{$map-name} must start at 0, but starts at #{$first-value}.";
     }
@@ -206,7 +212,7 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
     @if divide($value, 255) < .04045 {
       $value: divide(divide($value, 255), 12.92);
     } @else {
-      $value: nth($_luminance-list, $value + 1);
+      $value: list.nth($_luminance-list, $value + 1);
     }
     $rgb: map-merge($rgb, ($name: $value));
   }
